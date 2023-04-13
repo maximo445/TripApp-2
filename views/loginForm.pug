@@ -1,0 +1,32 @@
+extends base
+
+block content
+    - console.log('inside login page');
+    .d-flex.justify-content-center.mt-5
+        .container.w-25.border.border-5.border-dark.rounded.p-5
+            form.login-form
+                // Email input
+                .form-outline.mb-4
+                    input#email.form-control(type='email')
+                    label.form-label(for='email') Email address
+                // Password input
+                .form-outline.mb-4
+                    input#password.form-control(type='password')
+                    label.form-label(for='password') Password
+                // 2 column grid layout for inline styling
+                .row.mb-4
+                    .col.d-flex.justify-content-center
+                    // Checkbox
+                    .form-check
+                        input#form2Example31.form-check-input(type='checkbox' value='' checked='')
+                        label.form-check-label(for='form2Example31')  Remember me 
+                    .col
+                    // Simple link
+                    a.dark(href='#!') Forgot password?
+                // Submit button
+                button.btn.btn-dark.btn-block.mb-4(type='submit') Sign in
+                // Register buttons
+                .text-center
+                    p
+                    | Not a member? 
+                    a(href='#!') Register

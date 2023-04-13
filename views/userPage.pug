@@ -1,0 +1,44 @@
+extends base
+
+block content
+    - if (user.role === 'case-manager')
+        .container-fluid.mt-3        
+            .row
+                .col.text-dark 
+                    h1 Transports
+                    ul.list-group
+                        each trip in trips
+                            if trip.children
+                                li.list-group-item
+                                    a(href=`http://127.0.0.1:8000/tripPage/${trip._id}`)= trip.children 
+                                    span.label.label-default= trip.status
+                .col.text-dark 
+                    h1 Create Transport
+                    form.create-trip
+                        .form-group.m-2
+                            input#name.form-control(type='' placeholder='Name of Child')
+                        .form-group.m-2
+                            input#pickUpAddress.form-control(type='' placeholder='Pick up address')
+                        .form-group.m-2
+                            input#dropOffAddress.form-control(type='' placeholder='Drop off address')
+                        button.btn.btn-default(type='submit') Create
+    - if (user.role === 'driver') 
+        .container.mt-3        
+            .row
+                .col.text-dark 
+                    h1 Transports
+                    ul.list-group
+                        each trip in trips
+                            if trip.children
+                                li.list-group-item
+                                    a(href=`http://127.0.0.1:8000/tripPage/${trip._id}`)= trip.children
+    - if (user.role === 'transport-coordinator')
+        .container.mt-3        
+            .row
+                .col.text-dark 
+                    h1 Transports
+                    ul.list-group
+                        each trip in trips
+                            if trip.children
+                                li.list-group-item
+                                    a(href=`http://127.0.0.1:8000/tripPage/${trip._id}`)= trip.children                       

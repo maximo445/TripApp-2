@@ -1,0 +1,27 @@
+extends base
+
+block content 
+
+    .container-fluid.mt-3
+        .jumbotron
+            h1.display-4= trip.children
+            h3.display-6 Pickup: 
+            p.lead= trip.pickUp
+                | 
+            h3.display-6 DropOff: 
+            p.lead= trip.dropOff
+                | 
+            p.lead
+                - if (user.role === 'transport-coordinator')                    
+                    form.assign-form.mb-3
+                        #trip-id(data-value=`${trip.id}`)
+                        label.form-label(for='dropdown') Dropdown Example
+                        select#dropdown.form-select
+                            option(selected='') Select an Driver
+                            for driver in drivers
+                                - console.log(driver)
+                                option(value=driver.email)= driver.name                           
+                        button.btn.btn-primary(type='submit') Assign 
+                    p.lead
+                        |
+                a.btn.btn-primary.btn-lg(href='http://127.0.0.1:8000/userPage' role='button') Go back

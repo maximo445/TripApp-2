@@ -1,0 +1,24 @@
+extends base
+
+block content 
+
+    .container-fluid.mt-3
+        .jumbotron
+            h1.display-4= trip.children
+            h3.display-6 Pickup: 
+            p.lead= trip.pickUp
+                | 
+            h3.display-6 DropOff: 
+            p.lead= trip.dropOff
+                | 
+            p.lead
+                - if (user.role === 'transport-coordinator')                    
+                    form.assign-form.mb-3
+                        label.form-label(for='dropdown') Dropdown Example
+                        select#dropdown.form-select
+                        option(selected='') Select an option
+                        option(value='option1') Option 1
+                        option(value='option2') Option 2
+                        option(value='option3') Option 3
+                    button.btn.btn-primary(type='submit') Submit
+                a.btn.btn-primary.btn-lg(href='http://127.0.0.1:8000/' role='button') Go back
