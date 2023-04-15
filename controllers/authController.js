@@ -104,7 +104,8 @@ exports.logout = (req, res) => {
         expires: new Date(Date.now() + 10 * 1000),
         httOnly: true
     })
-
+    req.isLoggedIn = false;
+    req.userId = undefined;
     res.status(200).json({status: 'success'});
 }
 
@@ -130,8 +131,6 @@ exports.protect = errorCatcher(async (req, res, next) => {
 
     //check if user still exist
     const currentUser = await User.findById(decoded.id).select('+password');
-
-    console.log(currentUser);
 
     if (!currentUser) {
         return next(new AppError('User does not exist. Sad :(', 401));
@@ -160,8 +159,6 @@ exports.isLoggedIn = async (req, res, next) => {
             //check if user still exist
             const currentUser = await User.findById(decoded.id).select('+password');
 
-            console.log(currentUser);
-
             if (!currentUser) {
                 return next();
             }
@@ -172,6 +169,8 @@ exports.isLoggedIn = async (req, res, next) => {
             }
 
             res.locals.user = currentUser;
+            req.isLoggedIn = true;
+            req.userId = currentUser._id;
 
             return next();
         }

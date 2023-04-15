@@ -3,9 +3,29 @@ const Trip = require('../models/tripModel');
 const errorCatcher = require('./../utilis/errorCatcher');
 
 exports.login = errorCatcher(async (req, res, next) => {
+    
+    let view = null;
 
+    let trips = null;
+
+    const currentUser = User.findById(req.userId);
+
+    if (currentUser.role === 'driver')  {
+        trips = await Trip.find({driverEmail: currentUser.email});
+    } else if (currentUser.role === 'case-manager')  {
+        trips = await Trip.find({createdBy: currentUser._id});
+    } else if (currentUser.role === 'transport-coordinator') {
+        trips = await Trip.find({status: 'pending'});
+    }
+
+    if (req.isLoggedIn) {
+        view = 'userPage';
+    } else {
+        view = 'loginForm';
+    }
     res.status(200).render('loginForm', {
-        title: "Welcome"
+        title: "Welcome",
+        trips
     });
 });
 

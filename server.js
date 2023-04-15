@@ -29,8 +29,8 @@ mongoose.connect(DB, {
 const port = process.env.PORT || 8000;
 
 const server = app.listen(port, (err) => {
-    if (err) console.log(err);
-    console.log(`Running on port ${port}`);
+    if (err) console.log(err)
+    else console.log(`Running on port ${port}`);
 });
 
 // listens to all unhandled promise rejections in the application
