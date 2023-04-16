@@ -1,4 +1,4 @@
-const createTrip = async (name, pickUpAddress, dropOffAddress) => {
+const createTrip = async (name, pickUpAddress, dropOffAddress, day) => {
 
     console.log(name, pickUpAddress, dropOffAddress);
 
@@ -10,12 +10,13 @@ const createTrip = async (name, pickUpAddress, dropOffAddress) => {
             data: {
                 children: name, 
                 pickUp: pickUpAddress, 
-                dropOff: dropOffAddress
+                dropOff: dropOffAddress,
+                day: day
             }
         });
 
         if (res.data.status === 'success') {
-            // alert('You are logged in!');
+            alert('Trip Created!');
             window.setTimeout(() => {
                 location.assign('/userPage');
             }, 1000)
@@ -24,6 +25,7 @@ const createTrip = async (name, pickUpAddress, dropOffAddress) => {
         console.log(res);
 
     } catch (err) {
+        alert('Unable to Create Trip');
         console.log(err.response.data.message);
     }
 }
@@ -36,7 +38,8 @@ if (loginForm) {
         const name = document.getElementById('name').value;
         const pickUpAddress = document.getElementById('pickUpAddress').value;
         const dropOffAddress = document.getElementById('dropOffAddress').value;
-        createTrip(name, pickUpAddress, dropOffAddress);
+        const day = document.querySelector(".day-form-select").value;
+        createTrip(name, pickUpAddress, dropOffAddress, day);
         console.log('Event trigered');
     });
 }

@@ -15,9 +15,9 @@ block content
                 - if (user.role === 'transport-coordinator')                    
                     form.assign-form.mb-3
                         #trip-id(data-value=`${trip.id}`)
-                        label.form-label(for='dropdown') Dropdown Example
+                        label.form-label(for='dropdown') Pick Up a Driver
                         select#dropdown.form-select
-                            option(selected='') Select an Driver
+                            option(selected='') Drivers
                             for driver in drivers
                                 - console.log(driver)
                                 option(value=driver.email)= driver.name                           

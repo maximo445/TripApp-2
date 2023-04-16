@@ -3,6 +3,8 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 
+const AppError = require('./../utilis/appError');
+
 const userSchema = mongoose.Schema({
     // name, photo, email, phone, password, passwordConfirm
     name: {
@@ -92,6 +94,30 @@ userSchema.pre(/^find/, function (next) {
 
 userSchema.pre(/^find/, function (next) {
     this.populate('trips');
+    next();
+});
+
+userSchema.pre(/^create/, function (next) {    
+    if(this.role === 'transport-coordinator') {
+        return next(new AppError('There can only be one Transport Coordinator', 401))
+    }
+
+    next();
+});
+
+userSchema.pre(/^save/, function (next) {    
+    if(this.role === 'transport-coordinator') {
+        return next(new AppError('There can only be one Transport Coordinator', 401))
+    }
+
+    next();
+});
+
+userSchema.pre(/^insertMany/, function (next) {    
+    if(this.role === 'transport-coordinator') {
+        return next(new AppError('There can only be one Transport Coordinator', 401))
+    }
+
     next();
 });
 

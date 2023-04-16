@@ -23,7 +23,7 @@ router.route('/')
 router.route('/:id')
     .get(getTrip)
     .patch(updateTrip)
-    .delete(authController.protect, authController.restrictTo('case-manager', 'transport-coordinator'), deleteTrip);
+    .delete(authController.protect, deleteTrip); //  authController.restrictTo('case-manager')
 
 router.route('/assignTrip/:tripId/:driverEmail')
     .patch(authController.protect, authController.restrictTo('transport-coordinator'), assignTripToDriver);

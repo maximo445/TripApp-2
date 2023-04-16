@@ -1,6 +1,7 @@
 const User = require('../models/userModel');
 const Trip = require('../models/tripModel');
 const errorCatcher = require('./../utilis/errorCatcher');
+const AppError = require('./../utilis/appError');
 
 exports.login = errorCatcher(async (req, res, next) => {
     
@@ -44,6 +45,8 @@ exports.userPage = errorCatcher(async (req, res, next) => {
 
     let trips = null;
 
+    const drivers = await User.find({role: 'driver'});
+
     if (req.user.role === 'driver')  {
         trips = await Trip.find({driverEmail: req.user.email});
     } else if (req.user.role === 'case-manager')  {
@@ -51,11 +54,11 @@ exports.userPage = errorCatcher(async (req, res, next) => {
     } else if (req.user.role === 'transport-coordinator') {
         trips = await Trip.find({status: 'pending'});
     }
-
     
     res.status(200).render('userPage', {
         title: "Welcome",
-        trips
+        trips,
+        drivers
     });
 });
 

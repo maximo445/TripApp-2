@@ -153,11 +153,15 @@ exports.assignTripToDriver = errorCatcher(async (req, res, next) => {
 
 exports.deleteTrip = errorCatcher(async (req, res, next) => {
 
+    console.log('Current User: ', req.user);
+
     Trip.findById(req.params.id, (err, trip) => {
+
         if (err) {
             return next(new AppError('Invalid ID. No trip has that id', 404));
-        } else if (req.user.id !== trip.createdBy) {
-            console.log(trip);
+        }
+        
+        if (req.user._id != trip.createdBy.toString()) {
             return next(new AppError('Not your trip. You can not delete it', 401));
         } else {
             trip.remove(err => {
@@ -169,7 +173,7 @@ exports.deleteTrip = errorCatcher(async (req, res, next) => {
                         data: 'null'
                     });
                 }
-            })
+            });
         }
     });
 

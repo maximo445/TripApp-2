@@ -23,8 +23,10 @@ const tripSchema = new mongoose.Schema({
         type: String,
         require: [true, 'children field can not be empty']
     },
-    days: {
-        type: [Number]
+    day: {
+        type: String,
+        enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+        require: [true, 'day field can not be empty']
     },
     pickUp: String,
     dropOff: String,
