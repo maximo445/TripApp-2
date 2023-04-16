@@ -4,29 +4,37 @@ const errorCatcher = require('./../utilis/errorCatcher');
 
 exports.login = errorCatcher(async (req, res, next) => {
     
-    let view = null;
+    // let view = null;
 
-    let trips = null;
+    // let trips = null;
 
-    const currentUser = User.findById(req.userId);
+    // const currentUser = User.findById(req.userId);
 
-    if (currentUser.role === 'driver')  {
-        trips = await Trip.find({driverEmail: currentUser.email});
-    } else if (currentUser.role === 'case-manager')  {
-        trips = await Trip.find({createdBy: currentUser._id});
-    } else if (currentUser.role === 'transport-coordinator') {
-        trips = await Trip.find({status: 'pending'});
-    }
+    // if (currentUser.role === 'driver')  {
+    //     trips = await Trip.find({driverEmail: currentUser.email});
+    // } else if (currentUser.role === 'case-manager')  {
+    //     trips = await Trip.find({createdBy: currentUser._id});
+    // } else if (currentUser.role === 'transport-coordinator') {
+    //     trips = await Trip.find({status: 'pending'});
+    // }
 
-    if (req.isLoggedIn) {
-        view = 'userPage';
-    } else {
-        view = 'loginForm';
-    }
+    // if (req.isLoggedIn) {
+    //     view = 'userPage';
+    // } else {
+    //     view = 'loginForm';
+    // }
     res.status(200).render('loginForm', {
         title: "Welcome",
-        trips
+        // trips
     });
+});
+
+exports.signUp = errorCatcher(async (req, res, next) => {
+    
+    res.status(200).render('signUpPage', {
+        title: "Welcome"
+    });
+
 });
 
 exports.userPage = errorCatcher(async (req, res, next) => {

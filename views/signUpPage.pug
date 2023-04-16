@@ -1,0 +1,32 @@
+extends base
+
+block content
+    
+    .d-flex.justify-content-center.mt-5
+        .container.w-25.border.border-5.border-dark.rounded.p-5
+            h1.m-6 Sign Up             
+            form.signup-form
+                // Name
+                .form-outline.mb-4
+                    input#name.form-control(type='name')
+                    label.form-label(for='name') Name
+                // Email
+                .form-outline.mb-4
+                    input#email.form-control(type='email')
+                    label.form-label(for='email') Email address
+                // Password input
+                .form-outline.mb-4
+                    input#password.form-control(type='password')
+                    label.form-label(for='password') Password
+                // Password confirm input
+                .form-outline.mb-4
+                    input#password-confirm.form-control(type='password')
+                    label.form-label(for='password-confirm') Confirm Password
+                    select#signup-dropdown.signup-form-select
+                        option(selected='') Select Role                    
+                        option(value='casem-manager') Case Manager               
+                        option(value='driver') Driver               
+                        //- option(value='Transport Coordinator') Transport Coordinator               
+                    // Submit button
+                    button.btn.btn-dark.btn-block.mt-4(type='submit') Sign Up
+                    

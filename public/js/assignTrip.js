@@ -29,10 +29,13 @@ if (form) {
         event.preventDefault();
       
         // Get the value of the selected option in the "sombrero" dropdown list
-        // const tripId = document.querySelector('#trip-id').value;
+        const tripId = document.querySelector('#trip-id').getAttribute('data-value');
+
+        console.log('Trip ID: ', tripId);
+
         const driverEmail = document.querySelector(".form-select").value;
       
-        assignTrip('6435451ef9988836c414673e', driverEmail);
+        assignTrip(tripId, driverEmail);
       
       });
 }

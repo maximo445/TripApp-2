@@ -27,6 +27,8 @@ block content
             .row
                 .col.text-dark 
                     h1 Transports
+                    - if (trips.length === 0)
+                        h1 You Have no Transports Yet 
                     ul.list-group
                         each trip in trips
                             if trip.children
@@ -37,6 +39,8 @@ block content
             .row
                 .col.text-dark 
                     h1 Transports
+                    - if (trips.length === 0)
+                        h1 All Transports Were Assigned
                     ul.list-group
                         each trip in trips
                             if trip.children
