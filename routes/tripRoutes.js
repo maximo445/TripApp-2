@@ -21,24 +21,24 @@ router.route('/')
     .post(authController.protect, authController.restrictTo('case-manager'), addTrip);
 
 router.route('/:id')
-    .get(getTrip)
-    .patch(updateTrip)
-    .delete(authController.protect, deleteTrip); //  authController.restrictTo('case-manager')
+    .get(authController.protect, getTrip)
+    .patch(authController.protect, updateTrip)
+    .delete(authController.protect, authController.restrictTo('case-manager'), deleteTrip)
 
 router.route('/assignTrip/:tripId/:driverEmail')
     .patch(authController.protect, authController.restrictTo('transport-coordinator'), assignTripToDriver);
 
 router.route('/trip-stats')
-    .get(getTripStats);
+    .get(authController.protect, getTripStats);
 
 router.route('/getCaseManagerTrips')
     .get(authController.protect, getCaseManagerTrips);
 
 router.route('/getDriverTrips/:email')
-    .get(getDriverTrips);
+    .get(authController.protect, getDriverTrips);
 
 router.route('/getTripOnStatus/:status')
-    .get(getTripOnStatus);
+    .get(authController.protect, getTripOnStatus);
 
 
 // router.route('/:id')

@@ -1,0 +1,46 @@
+extends base
+
+block content
+
+    .container.mt-3
+            h1= driver.name       
+            .row
+                - if (trips && trips.length === 0)
+                    h1 This Driver has no Transports
+                - else 
+                    .col.text-dark 
+                        h1 Monday
+                        ul.list-group
+                            each trip in trips
+                                - if (trip.day == 'Monday')
+                                    li.list-group-item
+                                        a(href=`http://127.0.0.1:8000/tripPage/${trip._id}`)= trip.children
+                    .col.text-dark  
+                        h1 Tuesday
+                        ul.list-group
+                            each trip in trips
+                                - if (trip.day == 'Tuesday')
+                                    li.list-group-item
+                                        a(href=`http://127.0.0.1:8000/tripPage/${trip._id}`)= trip.children
+                    .col.text-dark 
+                        h1 Wednesday
+                        ul.list-group
+                            each trip in trips
+                                - if (trip.day == 'Wednesday')
+                                    li.list-group-item
+                                        a(href=`http://127.0.0.1:8000/tripPage/${trip._id}`)= trip.children
+                    .col.text-dark 
+                        h1 Thursday
+                        ul.list-group
+                            each trip in trips
+                                - if (trip.day == 'Thursday')
+                                    li.list-group-item
+                                        a(href=`http://127.0.0.1:8000/tripPage/${trip._id}`)= trip.children
+                    .col.text-dark  
+                        h1 Friday
+                        ul.list-group
+                            each trip in trips
+                                - if (trip.day == 'Friday')
+                                    li.list-group-item
+                                        a(href=`http://127.0.0.1:8000/tripPage/${trip._id}`)= trip.children
+            a.btn.btn-primary.btn-lg(href='http://127.0.0.1:8000/userPage' role='button') Go back

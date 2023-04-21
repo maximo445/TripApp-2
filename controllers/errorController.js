@@ -23,29 +23,44 @@ const handleJWTExpirationError = () => {
     return new AppError('Token Expired. Login Again :(', 401);
 }
 
-const sendDevErr = (err, res) => {
-    res.status(err.statusCode).json({
-        status: err.status,
-        error: err,
-        message: err.message,
-        stack: err.stack
-    });
-}
-
-const sendProdErr = (err, res) => {
-    //Operational error caused by our code
-    if (err.isOperational) {
+const sendDevErr = (err, req, res) => {
+    if (req.originalUrl.startsWith('/api')) {
         res.status(err.statusCode).json({
             status: err.status,
+            error: err,
             message: err.message,
+            stack: err.stack
         });
-
-        // Error caused by the outside world. Don't give the client much information.
     } else {
-        // sending error to user
-        res.status(500).json({
-            status: 'error',
-            message: 'Awful error :('
+        res.status(err.statusCode).render('errorPage', {
+            title: "Something Went Wrong!!",
+            message: err.message
+        });
+    }
+}
+
+const sendProdErr = (err, req, res) => {
+    //Operational error caused by our code
+    if (req.originalUrl.startsWith('/api')) {
+        
+        if (err.isOperational) {
+            res.status(err.statusCode).json({
+                status: err.status,
+                message: err.message,
+            });
+    
+            // Error caused by the outside world. Don't give the client much information.
+        } else {
+            // sending error to user
+            res.status(500).json({
+                status: 'error',
+                message: 'Awful error :('
+            });
+        }
+    } else {
+        res.status(err.statusCode).render('errorPage', {
+            title: "Something Went Wrong!!",
+            message: err.message
         });
     }
 }
@@ -57,7 +72,7 @@ module.exports = (err, req, res, next) => {
     err.status = err.status || 'error';
 
     if (process.env.NODE_ENV === 'development') {
-        sendDevErr(err, res);
+        sendDevErr(err, req, res);
     } else if (process.env.NODE_ENV === 'production') {
 
         let error = JSON.parse(JSON.stringify(err));
@@ -83,7 +98,7 @@ module.exports = (err, req, res, next) => {
             error = handleJWTExpirationError();
         }
 
-        sendProdErr(error, res);
+        sendProdErr(error, req, res);
     }
 
 }

@@ -1,3 +1,8 @@
+const os = require('os');
+
+const arch = os.arch();
+console.log('System architecture:', arch);
+
 const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 

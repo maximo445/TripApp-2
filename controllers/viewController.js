@@ -45,6 +45,8 @@ exports.userPage = errorCatcher(async (req, res, next) => {
 
     let trips = null;
 
+    let tripsPerDriver = {};
+
     const drivers = await User.find({role: 'driver'});
 
     if (req.user.role === 'driver')  {
@@ -53,12 +55,35 @@ exports.userPage = errorCatcher(async (req, res, next) => {
         trips = await Trip.find({createdBy: req.user._id});
     } else if (req.user.role === 'transport-coordinator') {
         trips = await Trip.find({status: 'pending'});
+        drivers.forEach(async driver => {
+            tripsPerDriver[driver.name] = await Trip.countDocuments({driverEmail: driver.email});
+        });
     }
     
+    console.log(tripsPerDriver);
+
     res.status(200).render('userPage', {
         title: "Welcome",
         trips,
-        drivers
+        drivers,
+        res
+    });
+});
+
+exports.driverInfo = errorCatcher(async (req, res, next) => {
+
+    const driver = await User.findById(req.params.id);
+
+    if (!driver) {
+        return next(new AppError('Driver not found', 404));
+    } 
+
+    const trips = await Trip.find({driverEmail: driver.email});
+    
+    res.status(200).render('driverInfo', {
+        title: "Welcome",
+        trips,
+        driver
     });
 });
 

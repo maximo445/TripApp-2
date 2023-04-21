@@ -1,12 +1,13 @@
 const express = require('express');
 const path = require('path');
-// const bodyParser = require('body-parser');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const crypto = require('crypto');
+const csp = require('helmet-csp');
 
 
 const AppError = require('./utilis/appError');
@@ -21,22 +22,48 @@ const viewRouter = require('./routes/viewRoutes');
 
 const app = express();
 
-//server side rendering template
+//server side rendering template and static files
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
-//static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-
 //Set security HTTP headers
-app.use(helmet({
-    contentSecurityPolicy: {
-        directives: {
-            ...helmet.contentSecurityPolicy.getDefaultDirectives(),
-            'script-src': ["'self'", "cdnjs.cloudflare.com", "cdn.jsdelivr.net"]
-        }
-    }
-}));
+
+// app.use(csp({
+//   directives: {
+//     defaultSrc: ["'self'"],
+//     scriptSrc: ["'self'", `'sha256-${hash}'`],
+//     scriptSrcAttr: ["'none'"]
+//   }
+// }));
+
+// app.use(helmet({
+//     contentSecurityPolicy: {
+//         directives: {
+//             ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+//             'script-src': ["'self'", "cdnjs.cloudflare.com", "cdn.jsdelivr.net", "maps.googleapis.com", "https://ajax.googleapis.com", "https://maxcdn.bootstrapcdn.com"],
+//             'connect-src': ["'self'", "maps.googleapis.com", "maps.gstatic.com"],
+//             'style-src': ["'self'", "cdn.jsdelivr.net"]
+//         }
+//     }
+// }));
+
+app.use(
+    helmet.contentSecurityPolicy({
+      useDefaults: false,
+      directives: {
+        defaultSrc: ["'self'", "maps.googleapis.com"],
+        scriptSrc: ["'self'", "cdnjs.cloudflare.com", "maps.googleapis.com", "cdn.jsdelivr.net", "ajax.googleapis.com"],
+        styleSrc: ["'self'", "cdn.jsdelivr.net", "unsafe-inline"],
+        objectSrc: ["'none'"],
+        upgradeInsecureRequests: [],
+      },
+    })
+  );
+
+const inlineScript = 'alert("Hello, world!")'
+const hash = crypto.createHash('sha256').update(inlineScript).digest('base64');
+
 
 //Limit requests from same api 
 const limiter = rateLimit({
@@ -52,13 +79,14 @@ app.use('/api', limiter);
 //     exended: false
 // }))
 
-//Serving static files
-app.use(express.static(`${__dirname}/public`));
+// //Serving static files
+// app.use(express.static(`${__dirname}/public`));
 
 app.use(express.json({
     limit: '10kb'
 }));
 
+// read cookies in request
 app.use(cookieParser());
 
 //Data sanitization against NoSQL query injection
