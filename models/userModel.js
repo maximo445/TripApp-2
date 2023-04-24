@@ -97,25 +97,49 @@ userSchema.pre(/^find/, function (next) {
     next();
 });
 
-userSchema.pre(/^create/, function (next) {    
-    if(this.role === 'transport-coordinator') {
-        return next(new AppError('There can only be one Transport Coordinator', 401))
+userSchema.pre(/^create/, async function (next) {    
+    // if(this.role === 'transport-coordinator') {
+    //     return next(new AppError('There can only be one Transport Coordinator', 401))
+    // }
+
+    const user = this;
+    const exist = await mongoose.model('User').exists({role: 'transport-coordinator'});
+
+    if (exist && user.role == 'transport-coordinator') {
+        return next(new AppError('There can only be one Transport Coordinator', 401));
     }
 
     next();
 });
 
-userSchema.pre(/^save/, function (next) {    
-    if(this.role === 'transport-coordinator') {
-        return next(new AppError('There can only be one Transport Coordinator', 401))
+userSchema.pre(/^save/, async function (next) {    
+    // if(this.role === 'transport-coordinator') {
+    //     return next(new AppError('There can only be one Transport Coordinator', 401))
+    // }
+
+    // next();
+
+    const user = this;
+    const exist = await mongoose.model('User').exists({role: 'transport-coordinator'});
+
+    if (exist && user.role == 'transport-coordinator') {
+        return next(new AppError('There can only be one Transport Coordinator', 401));
     }
 
     next();
 });
 
-userSchema.pre(/^insertMany/, function (next) {    
-    if(this.role === 'transport-coordinator') {
-        return next(new AppError('There can only be one Transport Coordinator', 401))
+userSchema.pre(/^insertMany/, async function (next) {    
+    // if(this.role === 'transport-coordinator') {
+    //     return next(new AppError('There can only be one Transport Coordinator', 401))
+    // }
+
+    // next();
+    const user = this;
+    const exist = await mongoose.model('User').exists({role: 'transport-coordinator'});
+
+    if (exist && user.role == 'transport-coordinator') {
+        return next(new AppError('There can only be one Transport Coordinator', 401));
     }
 
     next();

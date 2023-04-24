@@ -4,7 +4,8 @@ block content
     
     .d-flex.justify-content-center.mt-5
         .container.w-25.border.border-5.border-dark.rounded.p-5
-            h1.m-6 Sign Up             
+            h1.m-6 Sign Up
+            a.btn.btn-dark.btn-block.mb-4(href='http://127.0.0.1:8000/login' role='button') Go Back             
             form.signup-form
                 // Name
                 .form-outline.mb-4
@@ -24,10 +25,11 @@ block content
                     label.form-label(for='password-confirm') Confirm Password
                     select#signup-dropdown.signup-form-select
                         option(selected='') Select Role                    
-                        option(value='casem-manager') Case Manager               
+                        option(value='case-manager') Case Manager               
                         option(value='transport-coordinator') Transport Coordinator               
                         option(value='driver') Driver               
                         //- option(value='Transport Coordinator') Transport Coordinator               
                     // Submit button
-                    button.btn.btn-dark.btn-block.mt-4(type='submit') Sign Up
+                button.btn.btn-dark.btn-block.mt-4(type='submit') Sign Up
+                
                     

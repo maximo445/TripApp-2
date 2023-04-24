@@ -25,7 +25,8 @@ const signUp = async (name, email, password, passwordConfirm, role) => {
         console.log(res);
 
     } catch (err) {
-        alert('Error, try again!');
+        console.log(err);
+        alert(`Error: ${err.response.data.message}`);
         console.log(err.response.data.message);
     }
 

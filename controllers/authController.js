@@ -181,6 +181,16 @@ exports.isLoggedIn = async (req, res, next) => {
     next();
 };
 
+exports.transportCoordinatorExis = (req, res, next) => {
+    
+    const exist = User.exists({role: 'transport-coordinator'});
+    if (exist) {
+        return next(new AppError('There can only be one transport coordinator :(', 401));
+    }
+
+    next();
+}
+
 exports.restrictTo = (...roles) => {
     return (req, res, next) => {
 

@@ -1,4 +1,44 @@
-var placeSearch, autocomplete;
+const inputElement1 = document.querySelector('.pickUpAddress');
+const inputElement2 = document.querySelector('.dropOffAddress');
+const dropOffInput = document.querySelector('.drop-off-input');
+const submition = document.querySelector('.submition');
+const dropdown = document.querySelector('.dropdown');
+
+if (inputElement1) {
+
+  inputElement1.addEventListener('focus', () => {
+    submition.style.display = 'none';
+    dropdown.style.display = 'none';
+    dropOffInput.style.display = 'none';
+  });
+  
+  inputElement1.addEventListener('blur', () => {
+    submition.style.display = 'block';
+    dropdown.style.display = 'block';
+    dropOffInput.style.display = 'block';
+  });
+
+}
+
+if (inputElement2) {
+
+  inputElement2.addEventListener('focus', () => {
+    submition.style.display = 'none';
+    dropdown.style.display = 'none';
+  });
+  
+  inputElement2.addEventListener('blur', () => {
+    submition.style.display = 'block';
+    dropdown.style.display = 'block';
+  });
+
+}
+
+
+
+var placeSearch;
+let autocomplete;
+let autocomplete2
   var componentForm = {
     street_number: 'short_name',
     route: 'long_name',
@@ -8,19 +48,24 @@ var placeSearch, autocomplete;
     postal_code: 'short_name'
   };
 
-function initAutocomplete() {
+function initAutocomplete(autocomplete, autocomplete2) {
   // Create the autocomplete object, restricting the search to geographical
   // location types.
   autocomplete = new google.maps.places.Autocomplete(
     /** @type {!HTMLInputElement} */(document.getElementById('autocomplete')),
     {types: ['geocode']});
 
+  autocomplete2 = new google.maps.places.Autocomplete(
+    /** @type {!HTMLInputElement} */ (document.getElementById('autocomplete2')),
+    {types: ['geocode']});
+
   // When the user selects an address from the dropdown, populate the address
   // fields in the form.
   autocomplete.addListener('place_changed', fillInAddress);
+  autocomplete2.addListener('place_changed', fillInAddress);
 }
 
-function fillInAddress() {
+function fillInAddress(autocomplete) {
   // Get the place details from the autocomplete object.
   var place = autocomplete.getPlace();
 

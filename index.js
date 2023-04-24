@@ -48,12 +48,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 //     }
 // }));
 
+app.use((req, res, next) => {
+    res.locals.nonce = crypto.randomBytes(16).toString('base64');
+    next();
+})
+
 app.use(
     helmet.contentSecurityPolicy({
       useDefaults: false,
       directives: {
         defaultSrc: ["'self'", "maps.googleapis.com"],
-        scriptSrc: ["'self'", "cdnjs.cloudflare.com", "maps.googleapis.com", "cdn.jsdelivr.net", "ajax.googleapis.com"],
+        scriptSrc: ["'self'", "cdnjs.cloudflare.com", "maps.googleapis.com", "cdn.jsdelivr.net", "ajax.googleapis.com", (req, res) => `nonce-${res.locals.nonce}`],
         styleSrc: ["'self'", "cdn.jsdelivr.net", "unsafe-inline"],
         objectSrc: ["'none'"],
         upgradeInsecureRequests: [],
@@ -61,9 +66,8 @@ app.use(
     })
   );
 
-const inlineScript = 'alert("Hello, world!")'
-const hash = crypto.createHash('sha256').update(inlineScript).digest('base64');
-
+// const inlineScript = 'alert("Hello, world!")'
+// const hash = crypto.createHash('sha256').update(inlineScript).digest('base64');
 
 //Limit requests from same api 
 const limiter = rateLimit({

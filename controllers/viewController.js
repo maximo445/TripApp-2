@@ -65,8 +65,7 @@ exports.userPage = errorCatcher(async (req, res, next) => {
     res.status(200).render('userPage', {
         title: "Welcome",
         trips,
-        drivers,
-        res
+        drivers
     });
 });
 

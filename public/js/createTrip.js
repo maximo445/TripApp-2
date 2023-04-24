@@ -36,8 +36,10 @@ if (loginForm) {
     loginForm.addEventListener('submit', e => {
         e.preventDefault();
         const name = document.getElementById('name').value;
-        const pickUpAddress = document.getElementById('pickUpAddress').value;
-        const dropOffAddress = document.getElementById('dropOffAddress').value;
+        const pickUpAddress = document.querySelector('.pickUpAddress').value;
+        // const pickUpAddress = document.querySelector('pickUpAddress').value;
+        const dropOffAddress = document.querySelector('.dropOffAddress').value;
+        // const dropOffAddress = document.querySelector('dropOffAddress').value;
         const day = document.querySelector(".day-form-select").value;
         createTrip(name, pickUpAddress, dropOffAddress, day);
         console.log('Event trigered');
