@@ -21,6 +21,7 @@ const tripSchema = new mongoose.Schema({
     },
     children: {
         type: String,
+        minlength: 2,
         require: [true, 'children field can not be empty']
     },
     day: {

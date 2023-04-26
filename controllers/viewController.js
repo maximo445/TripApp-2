@@ -40,9 +40,6 @@ exports.signUp = errorCatcher(async (req, res, next) => {
 
 exports.userPage = errorCatcher(async (req, res, next) => {
 
-    console.log('Driver email: ',  req.user.email);
-    console.log('User role: ', req.user.role);
-
     let trips = null;
 
     let tripsPerDriver = {};

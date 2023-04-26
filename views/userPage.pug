@@ -12,10 +12,10 @@ block content
                         each trip in trips
                             if trip.children
                                 li.list-group-item
-                                #trip-id(data-value=`${trip.id}`)
-                                    a(href=`http://127.0.0.1:8000/tripPage/${trip._id}`)= trip.children 
-                                    span.label.label-default= trip.status
-                                    button.delete-btn(type="button", data-value=`http://127.0.0.1:8000/api/v1/tours/${trip.id}`) Delete
+                                    #trip-id(data-value=`${trip.id}`)
+                                    a.btn.btn-primary.btn-block.m-1(href=`http://127.0.0.1:8000/tripPage/${trip._id}`)= trip.children 
+                                    span.label.label-default.m-1= trip.status
+                                    button.delete-btn.btn.btn-danger.btn-block.m-1(type="button", data-value=`http://127.0.0.1:8000/api/v1/tours/${trip.id}`) Delete
                                     //- a(href=`http://127.0.0.1:8000/updateTrip/${trip._id}`) Update
                                     //- a(href=`http://127.0.0.1:8000/deleteTrip/${trip._id}`) Delete 
                 .col.text-dark 
